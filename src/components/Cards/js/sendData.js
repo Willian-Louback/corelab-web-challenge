@@ -15,6 +15,9 @@ export const sendData = (taskName, taskContent, favorite) => {
         }
     })
         .then(response => response.ok ? response.json() : null)
-        .catch(err => console.error(err));
+        .catch(err => {
+            console.error(err);
+            alert("Houve um erro no servidor tente novamente!"); // Preciso fazer um loop para fazer uma new Promise
+        });
 
 };

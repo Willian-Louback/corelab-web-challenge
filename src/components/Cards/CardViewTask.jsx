@@ -179,9 +179,9 @@ const CardViewTask = ({ task, taskContent, color, favorite, idDb, switchFavorite
                 setNewTask(newTaskEdit);
                 setNewTaskContent(newTaskContentEdit);
 
-                updateData(newTask, newTaskContent, idDb);
+                updateData(newTaskEdit, newTaskContentEdit, idDb);
                 const colorX = newColor ? newColor : color;
-                switchFavorite(favoriteImg[1], idDb, newTask, newTaskContent, colorX, false);
+                switchFavorite(favoriteImg[1], idDb, newTaskEdit, newTaskContentEdit, colorX, false);
                 setInterruptorEdit(false);
             }
         };
