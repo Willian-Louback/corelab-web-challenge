@@ -26,15 +26,17 @@ const CardViewTask = ({ task, taskContent, color, favorite, idDb, switchFavorite
     const [ newColorI, setNewColorI ] = useState(false);
     const [ interruptorDeleteConfirm, setInterruptorDeleteConfirm ] = useState(false);
     const [ newTask, setNewTask ] = useState(task);
+    const [ newTaskEdit, setNewTaskEdit ] = useState(task);
+    const [ newTaskContentEdit, setNewTaskContentEdit] = useState(taskContent);
     const [ newTaskContent, setNewTaskContent] = useState(taskContent);
 
 
     const handleTitleInput = (event) => {
-        setNewTask(event.target.value);
+        setNewTaskEdit(event.target.value);
     };
 
     const handleContentInput = (event) => {
-        setNewTaskContent(event.target.value);
+        setNewTaskContentEdit(event.target.value);
     };
 
     const handleClick = (option, value = null) => {
@@ -151,7 +153,32 @@ const CardViewTask = ({ task, taskContent, color, favorite, idDb, switchFavorite
 
     useEffect(() => {
         const update = (target) => {
+            if(target.key !== "Backspace") {
+                if(newTaskEdit.length > 27){
+                    setNewTaskEdit(newTaskEdit);
+                    alert("Diminua o tamanho do titulo...");
+                }
+
+                if(newTaskContentEdit.length > 700){
+                    setNewTaskContentEdit(newTaskContentEdit);
+                    alert("Diminua o tamanho do conteúdo...");
+                }
+            }
+
             if(target.key === "Enter"){
+                if(newTaskEdit.length > 27){
+                    setNewTaskEdit(newTaskEdit);
+                    return;
+                }
+
+                if(newTaskContentEdit.length > 700){
+                    setNewTaskContentEdit(newTaskContentEdit);
+                    return;
+                }
+
+                setNewTask(newTaskEdit);
+                setNewTaskContent(newTaskContentEdit);
+
                 updateData(newTask, newTaskContent, idDb);
                 const colorX = newColor ? newColor : color;
                 switchFavorite(favoriteImg[1], idDb, newTask, newTaskContent, colorX, false);
@@ -168,7 +195,7 @@ const CardViewTask = ({ task, taskContent, color, favorite, idDb, switchFavorite
         return () => {
             document.removeEventListener("keydown", update);
         }; //Isso aqui é muito importante para não ter vazamento de memória, sem isso vai criar um monte de tasks
-    }, [ newTask, newTaskContent, interruptorEdit ]);
+    }, [ newTaskEdit, newTaskContentEdit, interruptorEdit ]);
 
     return (
         <div className="cardViewTask" ref={ idCardRef }>
@@ -177,7 +204,7 @@ const CardViewTask = ({ task, taskContent, color, favorite, idDb, switchFavorite
                     !interruptorEdit ? (
                         <h1 className="titleTaskView">{ newTask }</h1>
                     ) : (
-                        <input type="text" placeholder={ newTask } value={ newTask } className="inputTitleUpdate" ref={ inputTitleRef } onInput={ handleTitleInput } />
+                        <input type="text" placeholder={ newTaskEdit } value={ newTaskEdit } className="inputTitleUpdate" ref={ inputTitleRef } onInput={ handleTitleInput } />
                     )
                 }
                 <img src={ favoriteImg[0] } alt="favoriteFillImg" className="favoriteSvg-view" onClick={ () => handleClick("FavoriteClick") } />
@@ -187,7 +214,7 @@ const CardViewTask = ({ task, taskContent, color, favorite, idDb, switchFavorite
                     !interruptorEdit ? (
                         <p className="contentTaskView">{ newTaskContent }</p>
                     ) : (
-                        <textarea placeholder={ newTaskContent } value={ newTaskContent } className="inputContentUpdate" ref={ inputContentRef } onInput={ handleContentInput } ></textarea>
+                        <textarea placeholder={ newTaskContentEdit } value={ newTaskContentEdit } className="inputContentUpdate" ref={ inputContentRef } onInput={ handleContentInput } ></textarea>
                     )
                 }
             </div>

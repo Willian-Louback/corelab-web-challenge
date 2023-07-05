@@ -66,10 +66,26 @@
     font-weight: 400;
 }
 
-@media screen and (max-width: 480px){
+@media screen and (max-width: 430px){
     .cardNewTask {
         border-radius: 25px;
-        width: 390px;
+        max-width: 320px;
+    }
+
+    .inputTitle {
+        margin-left: 5px;
+    }
+
+    .inputContent {
+        border-radius: 25px;
+        margin-right: 18px;
+    }
+}
+
+@media screen and (min-width: 430px) and (max-width: 480px){
+    .cardNewTask {
+        border-radius: 25px;
+        max-width: 350px;
     }
 
     .inputTitle {

@@ -29,23 +29,23 @@ const CardNewTask = ({ setCreateTask }) => {
     };
 
     useEffect(() => {
-        if(task.length > 33){
+        if(task.length > 27){
             setTask(task);
             alert("Diminua o tamanho do titulo...");
         }
 
-        if(taskContent.length > 900){
+        if(taskContent.length > 700){
             setTaskContent(taskContent);
             alert("Diminua o tamanho do conteúdo...");
         }
 
         const send = (target) => {
-            if(task.length > 33){
+            if(task.length > 27){
                 setTask(task);
                 return;
             }
 
-            if(taskContent.length > 900){
+            if(taskContent.length > 700){
                 setTaskContent(taskContent);
                 return;
             }

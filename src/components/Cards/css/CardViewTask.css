@@ -96,6 +96,7 @@
     font-size: 14px;
     border: none;
     outline: none;
+    border-radius: 25px;
 }
 
 .inputTitleUpdate::placeholder {
@@ -202,7 +203,31 @@
     background-image: url("../../../assets/svg/cancel-fill.svg");
 }
 
-@media screen and (max-width: 480px){
+@media screen and (max-width: 430px){
+    .cardViewTask {
+        width: 320px;
+        height: 408px;
+    }
+
+    .colorsViewContainer {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        align-items: center;
+        justify-items: center;
+        width: 290px;
+        height: 97px;
+        left: 0;
+        gap: 0;
+    }
+}
+
+@media screen and (min-width: 430px) and (max-width: 480px){
+    .cardViewTask {
+        width: 350px;
+        height: 408px;
+    }
+
     .colorsViewContainer {
         display: grid;
         grid-template-columns: repeat(6, 1fr);
