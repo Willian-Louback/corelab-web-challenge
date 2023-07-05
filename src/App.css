@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Montserrat&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-family: 'Montserrat', sans-serif; /* Conferir essa fonte depois*/
+}
+
+body {
+  background: #F0F2F5;
+}
+
+main {
+  margin-bottom: 80px;
+}
+
+.createTask {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.viewTask {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: auto;
+}
