@@ -15,5 +15,10 @@ export const updateData = async (taskName, taskContent, id) => {
         }
     })
         .then(response => response.ok ? console.log("updated") : null)
-        .catch(err => console.error(err));
+        .catch(async err => {
+            console.error(err);
+            console.log("tentando novamente");
+            return new Promise((resolve) => setTimeout(resolve, 200))
+                .then(() => updateData(taskName, taskContent, id));
+        });
 };

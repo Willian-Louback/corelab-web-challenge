@@ -36,6 +36,7 @@ const Nav = ({ setfilterTask, setfilterTaskColor }) => {
     };
 
     const handleFilterColorClick = (value) => {
+        setFilterImg([filterSvg, false]);
         setfilterTaskColor(value);
         setColorValue(value);
     };

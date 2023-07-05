@@ -17,7 +17,8 @@ export const sendData = (taskName, taskContent, favorite) => {
         .then(response => response.ok ? response.json() : null)
         .catch(err => {
             console.error(err);
-            alert("Houve um erro no servidor tente novamente!"); // Preciso fazer um loop para fazer uma new Promise
+            console.log("Tentando novamente");
+            return new Promise((resolve) => setTimeout(resolve, 200))
+                .then(() => sendData(taskName, taskContent, favorite));
         });
-
 };

@@ -16,14 +16,13 @@ const CardViewTask = ({ task, taskContent, color, favorite, idDb, switchFavorite
     const containerTitleViewRef = useRef(null);
     const editRef = useRef(null);
     const choiceColorRef = useRef(null);
-    const inputTitleRef = useRef(null);
     const inputContentRef = useRef(null);
     const [ interruptorEdit, setInterruptorEdit ] = useState(false);
     const [ interruptorChoiceColor, setInterruptorChoiceColor ] = useState(false);
     const [ deleteTask, setDeleteTask ] = useState(false);
     const [ favoriteImg, setFavoriteImg ] = useState([ favorite ? favoriteFillSvg : favoriteSvg, favorite ? true : false, false ]);
-    const [ newColor, setNewColor ] = useState(null);
-    const [ newColorI, setNewColorI ] = useState(false);
+    const [ newColor, setNewColor ] = useState(color);
+    const [ newColorI, setNewColorI ] = useState([false, false]);
     const [ interruptorDeleteConfirm, setInterruptorDeleteConfirm ] = useState(false);
     const [ newTask, setNewTask ] = useState(task);
     const [ newTaskEdit, setNewTaskEdit ] = useState(task);
@@ -74,7 +73,8 @@ const CardViewTask = ({ task, taskContent, color, favorite, idDb, switchFavorite
         }
         case "ColorClick": {
             setNewColor(value);
-            setNewColorI(true);
+            setNewColorI([true, true]);
+            setInterruptorChoiceColor(false);
             break;
         }
         case "interruptorDeleteConfirm": {
@@ -93,15 +93,11 @@ const CardViewTask = ({ task, taskContent, color, favorite, idDb, switchFavorite
         const idCard = idCardRef.current;
         const containerTitleView = containerTitleViewRef.current;
 
-        if(color !== "#FFF"){
+        if(newColor !== "#FFF"){
             containerTitleView.style.borderBottom = "1px solid #FFF";
         }
 
-        if(newColor === null) {
-            idCard.style.backgroundColor = color;
-        } else {
-            idCard.style.backgroundColor = newColor;
-        }
+        idCard.style.backgroundColor = newColor;
     }, [ newColor ]);
 
     useEffect(() => {
@@ -112,14 +108,15 @@ const CardViewTask = ({ task, taskContent, color, favorite, idDb, switchFavorite
     }, [ deleteTask ]);
 
     useEffect(() => {
-        if(favoriteImg[2] || newColor !== null){
-            if(!newColorI){
+        if(favoriteImg[2] || newColorI[0]){
+            if(!newColorI[1]){
                 changeStatus(favoriteImg[1], null, idDb);
-                switchFavorite(favoriteImg[1], idDb, newTask, newTaskContent, color, true);
+                switchFavorite(favoriteImg[1], idDb, newTask, newTaskContent, newColor, true);
+                setNewColorI([true, true]);
             } else {
                 changeStatus(favoriteImg[1], newColor, idDb);
                 switchFavorite(favoriteImg[1], idDb, newTask, newTaskContent, newColor, false);
-                setNewColorI(false);
+                setNewColorI([false, false]);
             }
         }
     }, [ favoriteImg, newColor ]);
@@ -127,15 +124,10 @@ const CardViewTask = ({ task, taskContent, color, favorite, idDb, switchFavorite
     useEffect(() => {
         const edit = editRef.current;
         const choiceColor = choiceColorRef.current;
-        const inputTitleElement = inputTitleRef.current;
         const inputContentElement = inputContentRef.current;
-
 
         if(interruptorEdit) {
             edit.style.backgroundColor = "#FFE3B3";
-            edit.style.borderRadius = "100%";
-            inputTitleElement.style.backgroundColor = color;
-            inputContentElement.style.backgroundColor = color;
             inputContentElement.focus();
             inputContentElement.selectionStart = inputContentElement.value.length;
             inputContentElement.selectionEnd = inputContentElement.value.length;
@@ -145,7 +137,6 @@ const CardViewTask = ({ task, taskContent, color, favorite, idDb, switchFavorite
 
         if(interruptorChoiceColor) {
             choiceColor.style.backgroundColor = "#FFE3B3";
-            choiceColor.style.borderRadius = "100%";
         } else {
             choiceColor.style = "";
         }
@@ -180,8 +171,7 @@ const CardViewTask = ({ task, taskContent, color, favorite, idDb, switchFavorite
                 setNewTaskContent(newTaskContentEdit);
 
                 updateData(newTaskEdit, newTaskContentEdit, idDb);
-                const colorX = newColor ? newColor : color;
-                switchFavorite(favoriteImg[1], idDb, newTaskEdit, newTaskContentEdit, colorX, false);
+                switchFavorite(favoriteImg[1], idDb, newTaskEdit, newTaskContentEdit, newColor, false);
                 setInterruptorEdit(false);
             }
         };
@@ -204,7 +194,7 @@ const CardViewTask = ({ task, taskContent, color, favorite, idDb, switchFavorite
                     !interruptorEdit ? (
                         <h1 className="titleTaskView">{ newTask }</h1>
                     ) : (
-                        <input type="text" placeholder={ newTaskEdit } value={ newTaskEdit } className="inputTitleUpdate" ref={ inputTitleRef } onInput={ handleTitleInput } />
+                        <input type="text" placeholder={ newTaskEdit } value={ newTaskEdit } className="inputTitleUpdate" style={{ backgroundColor: newColor }} onInput={ handleTitleInput } />
                     )
                 }
                 <img src={ favoriteImg[0] } alt="favoriteFillImg" className="favoriteSvg-view" onClick={ () => handleClick("FavoriteClick") } />
@@ -214,7 +204,7 @@ const CardViewTask = ({ task, taskContent, color, favorite, idDb, switchFavorite
                     !interruptorEdit ? (
                         <p className="contentTaskView">{ newTaskContent }</p>
                     ) : (
-                        <textarea placeholder={ newTaskContentEdit } value={ newTaskContentEdit } className="inputContentUpdate" ref={ inputContentRef } onInput={ handleContentInput } ></textarea>
+                        <textarea placeholder={ newTaskContentEdit } style={{ backgroundColor: newColor }} value={ newTaskContentEdit } className="inputContentUpdate" ref={ inputContentRef } onInput={ handleContentInput } ></textarea>
                     )
                 }
             </div>

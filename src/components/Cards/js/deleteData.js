@@ -9,5 +9,10 @@ export const deleteData = async (id) => {
         }
     })
         .then(response => response.ok ? console.log("deleted") : null)
-        .catch(err => console.error(err));
+        .catch(async err => {
+            console.error(err);
+            console.log("tentando novamente");
+            return new Promise((resolve) => setTimeout(resolve, 200))
+                .then(() => deleteData(id));
+        });
 };

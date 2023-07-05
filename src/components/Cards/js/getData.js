@@ -12,5 +12,8 @@ export const getData = async () => {
         }
     } catch(err){
         console.error(err);
+        console.log("tentando novamente");
+        return new Promise((resolve) => setTimeout(resolve, 200))
+            .then(() => getData());
     }
 };
