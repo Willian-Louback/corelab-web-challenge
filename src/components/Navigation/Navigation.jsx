@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 const Nav = ({ setfilterTask, setfilterTaskColor }) => {
     const [ inputSearch, setInputSearch ] = useState(null);
     const [ filterImg, setFilterImg ] = useState([filterSvg, false]);
+    const [ colorValue, setColorValue ] = useState("#FFF");
 
     const handleInput = (event) => {
         setInputSearch(event.target.value.toLowerCase());
@@ -31,10 +32,12 @@ const Nav = ({ setfilterTask, setfilterTaskColor }) => {
     const handleCancelFilterClick = () => {
         setFilterImg([filterSvg, false]);
         setfilterTaskColor(null);
+        setColorValue("#FFF");
     };
 
     const handleFilterColorClick = (value) => {
         setfilterTaskColor(value);
+        setColorValue(value);
     };
 
     useEffect(() => {
@@ -53,7 +56,7 @@ const Nav = ({ setfilterTask, setfilterTaskColor }) => {
             </div>
             <div className="container-nav-right">
                 <div className="container-filter-colors">
-                    <img src={ filterImg[0] } alt="menuImg" className="menuFilter" onClick={ handleFilterClick } />
+                    <img src={ filterImg[0] } alt="menuImg" className="menuFilter" onClick={ handleFilterClick } style={{ borderRadius: "3px", backgroundColor: colorValue, border: "1px solid #51646E" }} />
                     {
                         filterImg[1] ? (
                             <div className="filterColors">
